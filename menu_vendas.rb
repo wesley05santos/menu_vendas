@@ -4,7 +4,6 @@ menu_produtos = [
 {cod: 3, produto: 'hamburguer', preco: 29.99}
 ]
 pedido = []
-puts menu_produtos
 
 puts <<EOS
 ===================================
