@@ -21,35 +21,49 @@ system("clear")
 menu_produtos.each do |lista|
     puts "[#{i}]#{lista[:produto].upcase} --- R$#{lista[:preco]}"
     i += 1
-end  
+end 
 
-resp = "S"
+resp = "I"
 
-while resp == "S"  
+while resp == "I"  
     puts "Digite o código do produto: "
     cod_produto = gets.chomp.to_i 
     menu_produtos.each do |item|
         if cod_produto == item[:cod]
             pedido << item[:produto]
             total_pedido = total_pedido + item[:preco]
-        end
+        end        
+    end
+    if cod_produto < 0 || cod_produto > menu_produtos.length
+        puts "Código inválido!"
     end  
     novo_pedido = false    
     while novo_pedido == false do
-        puts "Deseja inserir mais algum produto: [S]Sim / [C] Cancelar Item / [F]Finalizar"
+        puts "Digite a função: [I]Inserir item / [C] Cancelar Item / [F]Finalizar"
         resp = gets.chomp.to_s.upcase
-        if resp == "S"
+        i = 1
+        if resp == "I"
+            system("clear")
+            menu_produtos.each do |lista|
+                puts "[#{i}]#{lista[:produto].upcase} --- R$#{lista[:preco]}"
+                i += 1
+            end  
             novo_pedido = true
-        #elsif resp == "C"
-        #    pedido.each.with_index{|item_cancela, index| puts "#{index + 1} --- #{item_cancela}"}
-        #    puts "Digite o número do item que deseja cancelar: "
-        #    index_delete = gets.chomp.to_i
-        #    pedido.delete_at(index_delete - 1)
-        #    total pedido = total pedido - menu_produtos[:preco[index_delete - 1]]
+        elsif resp == "C"
+            pedido.each.with_index{|item_cancela, index| puts "#{index + 1} --- #{item_cancela.upcase}"}
+            puts "Digite o número do item que deseja cancelar: "
+            index_delete = gets.chomp.to_i            
+            item_deletado = pedido.delete_at(index_delete - 1)                       
+            menu_produtos.each do |item|               
+                if item_deletado == item[:produto]
+                    pedido.delete(item[:produto])
+                    total_pedido = total_pedido - item[:preco]
+                end                     
+            end        
         elsif resp == "F"
             break
         else
-            puts "Opção inválida."
+            print "Opção inválida." 
             novo_pedido = false            
         end
     end
